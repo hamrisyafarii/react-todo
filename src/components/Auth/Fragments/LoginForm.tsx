@@ -14,8 +14,11 @@ import { loginSchema, type LoginSchema } from "@/schemas/auth.schema";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuth } from "@/hooks/use-auth";
+import LoadingPage from "@/pages/loading";
 
 const LoginForm = () => {
+  const { login, loading, error } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<LoginSchema>({
@@ -24,9 +27,17 @@ const LoginForm = () => {
 
   const { control, handleSubmit } = form;
 
-  const handleLoginSubmit = handleSubmit(async () => {
-    alert("Login nih!!");
+  const handleLoginSubmit = handleSubmit(async (values) => {
+    await login(values);
   });
+
+  if (loading) return <LoadingPage />;
+  if (error)
+    return (
+      <div className="text-red-500 flex justify-center items-center min-h-screen">
+        {error}
+      </div>
+    );
 
   return (
     <Form {...form}>
@@ -77,7 +88,9 @@ const LoginForm = () => {
           </Label>
         </div>
 
-        <Button className="w-full">Masuk</Button>
+        <Button className="w-full" disabled={loading}>
+          {loading ? "loading" : "Masuk"}
+        </Button>
       </form>
     </Form>
   );

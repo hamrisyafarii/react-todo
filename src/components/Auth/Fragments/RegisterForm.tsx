@@ -10,12 +10,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/hooks/use-auth";
+import LoadingPage from "@/pages/loading";
 import { registerSchema, type RegisterSchema } from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const RegisterForm = () => {
+  const { register, loading } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
@@ -23,9 +26,11 @@ const RegisterForm = () => {
 
   const { control, handleSubmit } = form;
 
-  const handleRegisterSubmit = handleSubmit(async () => {
-    alert("Reigster nih!!");
+  const handleRegisterSubmit = handleSubmit(async (values) => {
+    await register(values);
   });
+
+  if (loading) return <LoadingPage />;
 
   return (
     <Form {...form}>
@@ -115,7 +120,9 @@ const RegisterForm = () => {
           </Label>
         </div>
 
-        <Button className="w-full">Daftar</Button>
+        <Button className="w-full" disabled={loading}>
+          {loading ? "loading" : "Daftar"}
+        </Button>
       </form>
     </Form>
   );
