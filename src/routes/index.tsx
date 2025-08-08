@@ -1,3 +1,4 @@
+import Dashboard from "@/pages/dashboard";
 import HomePage from "@/pages/home";
 import LoginPage from "@/pages/login";
 import RegisterPage from "@/pages/register";
@@ -7,4 +8,5 @@ export const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
   { path: "/register", element: <RegisterPage /> },
   { path: "/login", element: <LoginPage /> },
+  { path: "/dashboard", element: <Dashboard /> },
 ]);

@@ -15,7 +15,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@/hooks/use-auth";
-import LoadingPage from "@/pages/loading";
 
 const LoginForm = () => {
   const { login, loading, error } = useAuth();
@@ -31,7 +30,6 @@ const LoginForm = () => {
     await login(values);
   });
 
-  if (loading) return <LoadingPage />;
   if (error)
     return (
       <div className="text-red-500 flex justify-center items-center min-h-screen">

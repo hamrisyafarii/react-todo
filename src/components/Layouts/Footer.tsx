@@ -1,13 +1,9 @@
 const Footer = () => {
   return (
-    <footer className="bg-background border-foreground border-t">
-      <div className="mx-auto max-w-screen-xl p-2">
-        <div className="flex items-center justify-center">
-          <p className="text-center text-sm text-muted-foreground">
-            Copyright &copy;hamriee 2025.
-          </p>
-        </div>
-      </div>
+    <footer className="flex min-h-16 border-t-2 p-4">
+      <p className="w-full text-center text-muted-foreground">
+        © 2024 Catatanku. All rights reserved
+      </p>
     </footer>
   );
 };
