@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axiosInstance from "@/lib/axios";
+import type { TaskDataSchema } from "@/schemas/task.schema";
 import type { TaskDTO } from "@/types/task.type";
 import { useEffect, useState } from "react";
 
@@ -11,11 +12,10 @@ export const useTask = () => {
   const getAllTask = async () => {
     setLoading(true);
     try {
-      const res = await axiosInstance.get("/tasks");
+      const { data } = await axiosInstance.get("/tasks");
 
-      console.log(res.data);
-      if (res.data.success) {
-        setTasks(res.data.data.data);
+      if (data.success) {
+        setTasks(data.data.data);
       }
     } catch (error: any) {
       setError(error.response.data.message);
@@ -28,5 +28,21 @@ export const useTask = () => {
     getAllTask();
   }, []);
 
-  return { tasks, loading, error, getAllTask };
+  const createTask = async (values: TaskDataSchema) => {
+    setLoading(true);
+    try {
+      const { data } = await axiosInstance.post("/task", values);
+
+      if (data.success) {
+        setTasks(data.data);
+      }
+      return;
+    } catch (error: any) {
+      setError(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { tasks, loading, error, getAllTask, createTask };
 };

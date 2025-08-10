@@ -11,7 +11,7 @@ const ViewModeToggle = ({
   onViewModeChange,
 }: ViewModeToggleProps) => {
   return (
-    <div className="flex border border-gray-300 rounded-lg overflow-hidden">
+    <div className="flex border border-muted rounded-lg overflow-hidden">
       <Button
         variant={viewMode === "grid" ? "default" : "ghost"}
         size="sm"

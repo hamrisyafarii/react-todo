@@ -13,4 +13,3 @@ export const taskSchema = z.object({
 });
 
 export type TaskDataSchema = z.infer<typeof taskSchema>;
-export type TaskDTO = z.ZodArray<typeof taskSchema>;

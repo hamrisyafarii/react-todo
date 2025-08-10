@@ -16,7 +16,7 @@ const TaskList = () => {
   const [filterStatus, setFilterStatus] = useState("all");
 
   const handleNewTask = () => {
-    console.log("Create new task");
+    alert("Create new task");
   };
 
   const handleViewDetails = (taskId: string) => {
@@ -33,7 +33,6 @@ const TaskList = () => {
     return <TaskErrorState error={error} />;
   }
 
-  // Filter tasks
   const filteredTasks = tasks.filter((task) => {
     const matchesSearch =
       task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

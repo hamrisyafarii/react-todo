@@ -9,7 +9,7 @@ interface headerProps {
 
 const Header = ({ type }: headerProps) => {
   return (
-    <header className="bg-background border-b border-foreground flex justify-between items-center py-2 px-2 md:px-8 sticky z-50 top-0">
+    <header className="bg-background border-b border-foreground flex justify-between items-center py-2 px-2 md:px-8">
       <div className="flex items-center space-x-2">
         <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
           <CheckCircle className="h-5 w-5 text-primary-foreground" />

@@ -18,22 +18,22 @@ const TaskStats = ({ tasks }: TaskStatsProps) => {
     {
       value: pendingCount,
       label: "Pending Tasks",
-      color: "text-gray-900",
+      color: "text-foreground",
     },
     {
       value: inProgressCount,
       label: "In Progress",
-      color: "text-blue-600",
+      color: "text-chart-3",
     },
     {
       value: completedCount,
       label: "Completed",
-      color: "text-green-600",
+      color: "text-chart-2",
     },
     {
       value: overdueCount,
       label: "Overdue",
-      color: "text-orange-600",
+      color: "text-destructive",
     },
   ];
 
@@ -42,10 +42,10 @@ const TaskStats = ({ tasks }: TaskStatsProps) => {
       {statCards.map((stat, index) => (
         <div
           key={index}
-          className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm"
+          className="bg-background p-6 rounded-lg border border-gray-200 shadow-sm"
         >
           <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
-          <div className="text-sm text-gray-600 mt-1">{stat.label}</div>
+          <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
         </div>
       ))}
     </div>

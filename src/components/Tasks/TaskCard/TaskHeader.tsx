@@ -15,7 +15,7 @@ const TaskHeader = ({ title, description, isFavorite }: TaskHeaderProps) => {
           {title}
         </CardTitle>
         <CardDescription className="text-sm text-gray-600 line-clamp-3">
-          {description}
+          {description.slice(0, 50)}
         </CardDescription>
       </div>
       {isFavorite && (
