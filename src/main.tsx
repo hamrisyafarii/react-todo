@@ -4,9 +4,11 @@ import "./index.css";
 import { router } from "./routes";
 import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "./components/ui/theme-provider";
+import { Toaster } from "./components/ui/sonner";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
+    <Toaster richColors position="top-right" />
     <ThemeProvider defaultTheme="system">
       <RouterProvider router={router} />
     </ThemeProvider>

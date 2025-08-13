@@ -3,6 +3,7 @@ import axiosInstance from "@/lib/axios";
 import type { TaskDataSchema } from "@/schemas/task.schema";
 import type { TaskDTO } from "@/types/task.type";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export const useTask = () => {
   const [tasks, setTasks] = useState<TaskDTO[]>([]);
@@ -13,6 +14,8 @@ export const useTask = () => {
     setLoading(true);
     try {
       const { data } = await axiosInstance.get("/tasks");
+
+      console.log("Fetch task:", data.data.data);
 
       if (data.success) {
         setTasks(data.data.data);
@@ -33,10 +36,12 @@ export const useTask = () => {
     try {
       const { data } = await axiosInstance.post("/task", values);
 
+      console.log("Created:", data.data);
+
       if (data.success) {
-        setTasks(data.data);
+        setTasks((prev) => [...prev, data.data]);
+        toast.success("Berhasil buat Task baru");
       }
-      return;
     } catch (error: any) {
       setError(error.response.data.message);
     } finally {

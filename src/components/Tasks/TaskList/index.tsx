@@ -8,15 +8,17 @@ import TaskFilters from "./TaskFilters";
 import TaskEmptyState from "./TaskEmptyState";
 import TaskErrorState from "./TaskErrorState";
 import TaskGrid from "./TaskGrid";
+import type { TaskDataSchema } from "@/schemas/task.schema";
 
 const TaskList = () => {
-  const { tasks, loading, error } = useTask();
+  const { tasks, loading, error, createTask, getAllTask } = useTask();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
 
-  const handleNewTask = () => {
-    alert("Create new task");
+  const handleNewTask = async (values: TaskDataSchema) => {
+    await createTask(values);
+    await getAllTask();
   };
 
   const handleViewDetails = (taskId: string) => {
