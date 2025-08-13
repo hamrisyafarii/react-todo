@@ -6,6 +6,7 @@ interface TaskGridProps {
   viewMode: "grid" | "list";
   onViewDetails?: (taskId: string) => void;
   onUpdateStatus?: (taskId: string) => void;
+  selectedTask?: () => void;
 }
 
 const TaskGrid = ({
