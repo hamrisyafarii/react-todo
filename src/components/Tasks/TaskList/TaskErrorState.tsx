@@ -14,7 +14,7 @@ const TaskErrorState = ({ error, onRetry }: TaskErrorStateProps) => {
     <div className="flex items-center justify-center min-h-screen">
       <div className="text-center">
         <div className="text-red-500 text-xl font-bold mb-2">
-          Error Loading Tasks
+          Harap login terlebih dahulu
         </div>
         <div className="text-gray-600 text-lg flex flex-col gap-2 capitalize">
           {error}

@@ -35,7 +35,7 @@ const TaskList = () => {
     if (!confirmDelete) return;
 
     try {
-      await deleteTask(taskId); // tunggu sampai delete selesai
+      await deleteTask(taskId);
     } catch (error) {
       console.error(error);
     }

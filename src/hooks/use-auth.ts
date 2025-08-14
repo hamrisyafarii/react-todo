@@ -3,6 +3,7 @@ import axiosInstance from "@/lib/axios";
 import { useState } from "react";
 import { type LoginSchema, type RegisterSchema } from "@/schemas/auth.schema";
 import Cookies from "js-cookie";
+import { toast } from "sonner";
 
 export const useAuth = () => {
   const [loading, setLoading] = useState(false);
@@ -32,12 +33,12 @@ export const useAuth = () => {
       if (res.data.success) {
         const token = res.data.data.token;
         Cookies.set("token", token);
-
+        toast.success("Login Berhasil");
         window.location.href = "/dashboard";
       }
     } catch (error: any) {
-      console.error("Error from api register", error.message);
-      setError(error.message);
+      setError(error?.response?.data?.message);
+      toast.error("Masukan email dan password dengan benar");
     } finally {
       setLoading(false);
     }

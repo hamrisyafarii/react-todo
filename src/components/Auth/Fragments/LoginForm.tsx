@@ -30,15 +30,11 @@ const LoginForm = () => {
     await login(values);
   });
 
-  if (error)
-    return (
-      <div className="text-red-500 flex justify-center items-center min-h-screen">
-        {error}
-      </div>
-    );
-
   return (
     <Form {...form}>
+      <div className="text-destructive font-medium flex justify-center items-center rounded-md my-2 p-1">
+        {error}
+      </div>
       <form className="space-y-2" onSubmit={handleLoginSubmit}>
         <FormField
           control={control}
