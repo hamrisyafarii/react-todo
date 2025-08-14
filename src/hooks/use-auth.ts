@@ -47,6 +47,7 @@ export const useAuth = () => {
   const logout = () => {
     Cookies.remove("token");
     window.location.href = "/login";
+    toast.success("Kamu berhasil logout !");
   };
 
   return { loading, error, register, login, logout };

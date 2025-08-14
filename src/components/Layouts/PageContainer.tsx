@@ -18,7 +18,7 @@ export const PageContainer = forwardRef<
   ) => {
     return (
       <div className="h-full w-full">
-        {withHeader && <Header />}
+        {withHeader && <Header type="dashboard" />}
         <main ref={ref} className={cn("flex flex-col", className)} {...props}>
           {children}
         </main>
