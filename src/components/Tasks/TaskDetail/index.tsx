@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Flag, Heart } from "lucide-react";
+import { Calendar, Clock, Flag, Heart, Trash2Icon } from "lucide-react";
 import type { TaskDTO } from "@/types/task.type";
 import { useTask } from "@/hooks/use-task";
 import { format } from "date-fns";
@@ -115,7 +115,7 @@ const TaskDetail = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto ">
         <DialogHeader>
           <DialogTitle className="flex items-start gap-3">
             <div className="flex-1">
@@ -123,13 +123,15 @@ const TaskDetail = ({
                 {task.isFavorite && (
                   <Heart className="w-5 h-5 text-red-500 fill-current" />
                 )}
-                <span className="text-xl font-semibold">{task.title}</span>
+                <span className="text-xl font-semibold underline">
+                  {task.title}
+                </span>
               </div>
             </div>
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6">
+        <div className="space-y-6 border-2 p-4 rounded-xl">
           <div className="flex flex-wrap gap-3">
             <Badge className={getPriorityColor(task.priority)}>
               <Flag className="w-3 h-3 mr-1" />
@@ -196,11 +198,15 @@ const TaskDetail = ({
           </div>
         </div>
 
-        <div className="flex gap-3">
-          <Button variant="destructive" onClick={() => onDeleteTask(task.id)}>
-            Delete
+        <div className="flex justify-end gap-3">
+          <Button
+            size={"icon"}
+            variant="destructive"
+            className="w-full"
+            onClick={() => onDeleteTask(task.id)}
+          >
+            <Trash2Icon />
           </Button>
-          <Button>Edit Task</Button>
         </div>
       </DialogContent>
     </Dialog>

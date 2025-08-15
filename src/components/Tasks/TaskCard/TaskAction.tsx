@@ -22,7 +22,7 @@ const TaskActions = ({ onViewDetails, onUpdateStatus }: TaskActionsProps) => {
         className="flex-1 text-xs font-medium bg-blue-600 hover:bg-blue-700"
         onClick={onUpdateStatus}
       >
-        Update Status
+        Update Task
       </Button>
     </div>
   );

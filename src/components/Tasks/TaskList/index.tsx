@@ -1,7 +1,6 @@
 import { useTask } from "@/hooks/use-task";
 import LoadingPage from "@/pages/loading";
 import { useState } from "react";
-
 import TaskHeader from "./TaskHeader";
 import TaskStats from "./TaskStats";
 import TaskFilters from "./TaskFilters";
@@ -10,13 +9,22 @@ import TaskErrorState from "./TaskErrorState";
 import TaskGrid from "./TaskGrid";
 import type { TaskDataSchema } from "@/schemas/task.schema";
 import TaskDetail from "../TaskDetail";
+import EditTask from "../EditTask";
 
 const TaskList = () => {
-  const { tasks, loading, error, createTask, getAllTask, deleteTask } =
-    useTask();
+  const {
+    tasks,
+    loading,
+    error,
+    createTask,
+    getAllTask,
+    deleteTask,
+    updateTask,
+  } = useTask();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
   const [openDetailView, setOpenDetailView] = useState(false);
+  const [openEditView, setOpenEditView] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
 
@@ -43,11 +51,23 @@ const TaskList = () => {
 
   const handleCloseDialog = () => {
     setOpenDetailView(false);
+    setOpenEditView(false);
     setSelectedTask(null);
   };
 
-  const handleUpdateStatus = (taskId: string) => {
-    console.log("Update status for task:", taskId);
+  const handleUpdateTask = (taskId: string) => {
+    setSelectedTask(taskId);
+    setOpenEditView(true);
+  };
+
+  const handleSaveUpdatedTask = async (
+    taskId: string,
+    values: TaskDataSchema
+  ) => {
+    await updateTask(taskId, values);
+    await getAllTask();
+    setOpenEditView(false);
+    setSelectedTask(null);
   };
 
   if (loading) return <LoadingPage />;
@@ -88,7 +108,7 @@ const TaskList = () => {
           tasks={filteredTasks}
           viewMode={viewMode}
           onViewDetails={handleViewDetails}
-          onUpdateStatus={handleUpdateStatus}
+          onUpdateStatus={handleUpdateTask}
         />
       )}
 
@@ -98,6 +118,15 @@ const TaskList = () => {
           taskId={selectedTask}
           open={openDetailView}
           onOpenChange={handleCloseDialog}
+        />
+      )}
+
+      {openEditView && selectedTask && (
+        <EditTask
+          taskId={selectedTask!}
+          open={openEditView}
+          onOpenChange={handleCloseDialog}
+          onUpdateTask={handleSaveUpdatedTask}
         />
       )}
     </div>
