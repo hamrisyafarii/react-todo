@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Flag, Heart, Trash2Icon } from "lucide-react";
+import { Calendar, Clock, Flag, Star, Trash2Icon } from "lucide-react";
 import type { TaskDTO } from "@/types/task.type";
 import { useTask } from "@/hooks/use-task";
 import { format } from "date-fns";
@@ -26,7 +26,7 @@ const TaskDetail = ({
   onOpenChange,
   onDeleteTask,
 }: TaskDetailDialogProps) => {
-  const { getTaskById, loading } = useTask();
+  const { getTaskById, loading, toggleFavorite } = useTask();
   const [task, setTask] = useState<TaskDTO | null>(null);
 
   useEffect(() => {
@@ -120,9 +120,14 @@ const TaskDetail = ({
           <DialogTitle className="flex items-start gap-3">
             <div className="flex-1">
               <div className="flex items-center gap-2">
-                {task.isFavorite && (
-                  <Heart className="w-5 h-5 text-red-500 fill-current" />
-                )}
+                <Star
+                  onClick={() => toggleFavorite(task.id, task.isFavorite)}
+                  className={`w-5 h-5 cursor-pointer ${
+                    task.isFavorite
+                      ? "text-yellow-500 fill-current"
+                      : "text-gray-400 hover:text-yellow-500"
+                  }`}
+                />
                 <span className="text-xl font-semibold underline">
                   {task.title}
                 </span>

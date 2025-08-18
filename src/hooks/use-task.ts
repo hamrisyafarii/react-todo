@@ -89,6 +89,35 @@ export const useTask = () => {
     getAllTask();
   }, []);
 
+  const toggleFavorite = async (id: string, currentValue: boolean) => {
+    setLoading(true);
+    try {
+      const { data } = await axiosInstance.patch(`/task/${id}/isFav`, {
+        isFavorite: !currentValue,
+      });
+
+      if (data.success) {
+        setTasks((prev) =>
+          prev.map((task) =>
+            task.id === id
+              ? { ...task, isFavorite: data.data.isFavorite }
+              : task
+          )
+        );
+        toast.success(
+          data.data.isFavorite
+            ? "Task ditandai sebagai favorite"
+            : "Task dihapus dari favorite"
+        );
+      }
+    } catch (error: any) {
+      setError(error.response?.data?.message || "Gagal toggle favorite");
+      toast.error("Gagal mengubah status favorite");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     tasks,
     loading,
@@ -98,5 +127,6 @@ export const useTask = () => {
     createTask,
     updateTask,
     deleteTask,
+    toggleFavorite,
   };
 };

@@ -18,8 +18,10 @@ const TaskHeader = ({ title, description, isFavorite }: TaskHeaderProps) => {
           {description.slice(0, 50)}
         </CardDescription>
       </div>
-      {isFavorite && (
+      {isFavorite ? (
         <Star className="w-5 h-5 text-yellow-500 fill-current flex-shrink-0 ml-2" />
+      ) : (
+        <Star className="text-gray-400" />
       )}
     </div>
   );
