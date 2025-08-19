@@ -10,6 +10,9 @@ import TaskGrid from "./TaskGrid";
 import type { TaskDataSchema } from "@/schemas/task.schema";
 import TaskDetail from "../TaskDetail";
 import EditTask from "../EditTask";
+import Category from "../Category";
+import { useCategory } from "@/hooks/use-category";
+import type { CategoryDataSchema } from "@/schemas/category.schema";
 
 const TaskList = () => {
   const {
@@ -28,9 +31,24 @@ const TaskList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
 
+  // Category
+  const { category, createNewCategory, deleteCategory, updateCategory } =
+    useCategory();
+
   const handleNewTask = async (values: TaskDataSchema) => {
     await createTask(values);
     await getAllTask();
+  };
+
+  const handleNewCategory = async (values: CategoryDataSchema) => {
+    await createNewCategory(values);
+  };
+
+  const handleUpdateCategory = async (
+    id: string,
+    value: CategoryDataSchema
+  ) => {
+    await updateCategory(id, value);
   };
 
   const handleViewDetails = (taskId: string) => {
@@ -101,6 +119,14 @@ const TaskList = () => {
         viewMode={viewMode}
         onViewModeChange={setViewMode}
       />
+
+      <Category
+        onUpdateCategory={handleUpdateCategory}
+        onCreateCategory={handleNewCategory}
+        category={category}
+        onDeleteCategory={deleteCategory}
+      />
+
       {filteredTasks.length === 0 ? (
         <TaskEmptyState hasFilters={hasFilters} />
       ) : (

@@ -12,7 +12,7 @@ export const SectionContainer = forwardRef<
   React.HTMLAttributes<HTMLElement> & SectionContainerProps
 >(({ className, children, padded, containerClassName, ...props }, ref) => {
   return (
-    <div className={cn("relative h-full ", containerClassName)}>
+    <div className={cn("relative h-full", containerClassName)}>
       <section
         ref={ref}
         className={cn(
