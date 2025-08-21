@@ -6,7 +6,7 @@ export interface TaskDTO {
   status: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
   deadline: string;
   isFavorite: boolean;
-  categoryId: string;
+  categoryId?: string;
   createdAt?: string;
   updatedAt?: string;
 }

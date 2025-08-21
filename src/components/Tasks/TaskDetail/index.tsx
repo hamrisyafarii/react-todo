@@ -7,11 +7,22 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Flag, Star, Trash2Icon } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  Delete,
+  Flag,
+  Send,
+  Star,
+  Trash2Icon,
+} from "lucide-react";
 import type { TaskDTO } from "@/types/task.type";
 import { useTask } from "@/hooks/use-task";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
+import { Input } from "@/components/ui/input";
+import { useComment } from "@/hooks/use-comment";
+import type { CommentDataSchema } from "@/schemas/comment.shcema";
 
 interface TaskDetailDialogProps {
   taskId: string;
@@ -27,19 +38,30 @@ const TaskDetail = ({
   onDeleteTask,
 }: TaskDetailDialogProps) => {
   const { getTaskById, loading, toggleFavorite } = useTask();
+  const { getAllComment, comment, createComment, deleteComment } = useComment();
   const [task, setTask] = useState<TaskDTO | null>(null);
+  const [newComment, setNewComment] = useState("");
 
   useEffect(() => {
     if (open && taskId) {
       const fetchTaskDetail = async () => {
         const taskDetail = await getTaskById(taskId);
-        if (taskDetail) {
-          setTask(taskDetail);
-        }
+        if (taskDetail) setTask(taskDetail);
+
+        await getAllComment(taskId);
       };
       fetchTaskDetail();
     }
-  }, [open, taskId, getTaskById]);
+  }, [open, taskId, getTaskById, getAllComment]);
+
+  const handleCreateComment = async (
+    value: CommentDataSchema & { taskId: string }
+  ) => {
+    if (!value.content.trim()) return;
+    await createComment(value);
+    setNewComment("");
+    await getAllComment(taskId);
+  };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -200,6 +222,53 @@ const TaskDetail = ({
                 })}
               </span>
             </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          {comment.length > 0 &&
+            comment.map((com) => (
+              <div
+                className="w-full border-1 rounded-xl px-4 py-1"
+                key={com.id}
+              >
+                <div className="flex justify-between items-center gap-2 ">
+                  <div className="flex flex-col ">
+                    <h1 className="text-sm font-semibold mb-1 underline">
+                      {com.task?.user?.username}
+                    </h1>
+                    <p className="text-sm">{com.content}</p>
+                  </div>
+                  <div className="flex justify-end items-center">
+                    <Button
+                      className="text-destructive"
+                      size={"icon"}
+                      variant={"ghost"}
+                      onClick={() => deleteComment(com.id!)}
+                    >
+                      <Delete />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex gap-2">
+            <Input
+              value={newComment}
+              placeholder="Tambahkan komentar"
+              onChange={(e) => setNewComment(e.target.value)}
+            />
+            <Button
+              onClick={() =>
+                handleCreateComment({ content: newComment, taskId })
+              }
+              variant={"outline"}
+            >
+              <Send />
+            </Button>
           </div>
         </div>
 
