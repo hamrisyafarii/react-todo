@@ -7,6 +7,9 @@ export interface TaskDTO {
   deadline: string;
   isFavorite: boolean;
   categoryId?: string;
+  category?: {
+    name: string;
+  };
   createdAt?: string;
   updatedAt?: string;
 }

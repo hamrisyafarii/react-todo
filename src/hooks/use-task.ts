@@ -13,7 +13,7 @@ export const useTask = () => {
   const getAllTask = async () => {
     setLoading(true);
     try {
-      const { data } = await axiosInstance.get("/tasks");
+      const { data } = await axiosInstance.get("/tasksUser");
       if (data.success) {
         setTasks(data.data.data);
       }

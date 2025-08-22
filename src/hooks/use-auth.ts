@@ -18,8 +18,8 @@ export const useAuth = () => {
 
       window.location.href = "/login";
     } catch (error: any) {
-      console.error("Error from api register", error.message);
-      setError(error.message);
+      setError(error.response.data.message);
+      toast.error(error.response.data.message);
     } finally {
       setLoading(false);
     }

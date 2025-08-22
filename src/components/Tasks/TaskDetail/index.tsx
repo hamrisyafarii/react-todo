@@ -29,6 +29,7 @@ interface TaskDetailDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onDeleteTask: (taskId: string) => void;
+  onToggleFav: (taskId: string, isFavorite: boolean) => void;
 }
 
 const TaskDetail = ({
@@ -36,8 +37,9 @@ const TaskDetail = ({
   open,
   onOpenChange,
   onDeleteTask,
+  onToggleFav,
 }: TaskDetailDialogProps) => {
-  const { getTaskById, loading, toggleFavorite } = useTask();
+  const { getTaskById, loading } = useTask();
   const { getAllComment, comment, createComment, deleteComment } = useComment();
   const [task, setTask] = useState<TaskDTO | null>(null);
   const [newComment, setNewComment] = useState("");
@@ -136,14 +138,14 @@ const TaskDetail = ({
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange} key={task.id}>
       <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto ">
         <DialogHeader>
           <DialogTitle className="flex items-start gap-3">
             <div className="flex-1">
               <div className="flex items-center gap-2">
                 <Star
-                  onClick={() => toggleFavorite(task.id, task.isFavorite)}
+                  onClick={() => onToggleFav(task.id, task.isFavorite)}
                   className={`w-5 h-5 cursor-pointer ${
                     task.isFavorite
                       ? "text-yellow-500 fill-current"
@@ -166,6 +168,9 @@ const TaskDetail = ({
             </Badge>
             <Badge className={getStatusColor(task.status)}>
               {getStatusLabel(task.status)}
+            </Badge>
+            <Badge className="capitalize">
+              {task.category?.name ?? "No Category"}
             </Badge>
           </div>
 

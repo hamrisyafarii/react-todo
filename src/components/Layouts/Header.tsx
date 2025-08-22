@@ -1,6 +1,5 @@
 import { CheckCircle, LogOutIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import { ModeToggle } from "../ui/mode-toggle";
 import { Button } from "../ui/button";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -29,7 +28,6 @@ const Header = ({ type }: headerProps) => {
       </div>
 
       <div className="flex gap-2">
-        <ModeToggle />
         {type === "login" && (
           <div className="flex items-center space-x-2">
             <Link to="/register">

@@ -1,7 +1,13 @@
 import { z } from "zod";
 
 export const loginSchema = z.object({
-  username: z.string().min(1, { message: "Username harus di isi" }),
+  username: z
+    .string()
+    .min(1, { message: "Username harus di isi" })
+    .transform((val) => val.replace(/\s+/g, ""))
+    .refine((val) => val.length > 0, {
+      message: "Username tidak boleh hanya berisi spasi",
+    }),
   password: z.string().min(1, { message: "Password harus di isi" }),
 });
 
@@ -10,7 +16,11 @@ export const registerSchema = z
     username: z
       .string()
       .min(3, { message: "Username minimal 3 karakter" })
-      .max(25, { message: "Username maksimal 25 karakter" }),
+      .max(25, { message: "Username maksimal 25 karakter" })
+      .transform((val) => val.replace(/\s+/g, ""))
+      .refine((val) => val.length > 0, {
+        message: "Username tidak boleh hanya berisi spasi",
+      }),
     email: z.email({ message: "Invalid format email" }),
     password: z
       .string()

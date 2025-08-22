@@ -23,6 +23,7 @@ const TaskList = () => {
     getAllTask,
     deleteTask,
     updateTask,
+    toggleFavorite,
   } = useTask();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
@@ -38,6 +39,10 @@ const TaskList = () => {
   const handleNewTask = async (values: TaskDataSchema) => {
     await createTask(values);
     await getAllTask();
+  };
+
+  const handleToggleFavorite = async (taskId: string, isFavorite: boolean) => {
+    await toggleFavorite(taskId, isFavorite);
   };
 
   const handleNewCategory = async (values: CategoryDataSchema) => {
@@ -107,7 +112,7 @@ const TaskList = () => {
 
   return (
     <div className="space-y-6">
-      <TaskHeader onNewTask={handleNewTask} />
+      <TaskHeader onNewTask={handleNewTask} category={category} />
 
       <TaskStats tasks={tasks} />
 
@@ -140,6 +145,7 @@ const TaskList = () => {
 
       {selectedTask && (
         <TaskDetail
+          onToggleFav={handleToggleFavorite}
           onDeleteTask={handleDeleteTask}
           taskId={selectedTask}
           open={openDetailView}

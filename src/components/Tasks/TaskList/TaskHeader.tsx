@@ -16,15 +16,17 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import type { TaskDataSchema } from "@/schemas/task.schema";
+import type { categoryDTO } from "@/types/category.type";
 import { PlusCircle } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "sonner";
 
 interface TaskHeaderProps {
   onNewTask?: (values: TaskDataSchema) => void;
+  category: categoryDTO[];
 }
 
-const TaskHeader = ({ onNewTask }: TaskHeaderProps) => {
+const TaskHeader = ({ onNewTask, category }: TaskHeaderProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState<TaskDataSchema>({
     title: "",
@@ -33,6 +35,7 @@ const TaskHeader = ({ onNewTask }: TaskHeaderProps) => {
     status: "PENDING",
     deadline: "",
     isFavorite: false,
+    categoryId: "",
   });
 
   const handleChange = (
@@ -136,6 +139,33 @@ const TaskHeader = ({ onNewTask }: TaskHeaderProps) => {
                 </SelectContent>
               </Select>
             </div>
+
+            {category.length > 0 && (
+              <div className="space-y-2">
+                <Label>Category</Label>
+                <Select
+                  value={formData.categoryId!}
+                  onValueChange={(value) =>
+                    handleSelectChange("categoryId", value)
+                  }
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Pilih kategori" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {category.map((cat) => (
+                      <SelectItem
+                        key={cat.id}
+                        value={cat.id!}
+                        className="capitalize"
+                      >
+                        {cat.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
 
             <div className="space-y-2">
               <Label>Due Date</Label>

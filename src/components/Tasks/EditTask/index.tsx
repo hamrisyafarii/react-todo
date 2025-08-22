@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useCategory } from "@/hooks/use-category";
 import { useTask } from "@/hooks/use-task";
 import type { TaskDataSchema } from "@/schemas/task.schema";
 import type { TaskDTO } from "@/types/task.type";
@@ -34,6 +35,7 @@ const EditTask = ({
   onUpdateTask,
 }: updateTaskProps) => {
   const { loading, getTaskById } = useTask();
+  const { category } = useCategory();
 
   // ini untuk state fetch data task by id
   const [task, setTask] = useState<TaskDTO | null>(null);
@@ -165,6 +167,35 @@ const EditTask = ({
               </SelectContent>
             </Select>
           </div>
+
+          <div className="space-y-2">
+            <Label>Category</Label>
+            <Select
+              value={formData.categoryId ?? ""}
+              onValueChange={(value) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  categoryId: value || undefined, // biar bisa kosong juga
+                }))
+              }
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Pilih kategori" />
+              </SelectTrigger>
+              <SelectContent>
+                {category.map((cat) => (
+                  <SelectItem
+                    key={cat.id}
+                    value={cat.id!}
+                    className="capitalize"
+                  >
+                    {cat.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
           <div className="space-y-2">
             <Label>Due Date</Label>
             <Input
